@@ -9,8 +9,7 @@ form.addEventListener('submit', function(e) {
     const edad = document.getElementById('edad').value;
     const altura = parseFloat(document.getElementById('altura').value);
     const peso = parseFloat(document.getElementById('peso').value);
-
-    // Calcular IMC ($IMC = peso / altura^2$)
+    
     const imc = (peso / (altura * altura)).toFixed(2);
 
     const fila = document.createElement('tr');

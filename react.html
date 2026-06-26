@@ -18,19 +18,16 @@
     <h2>Carga de Personas (React)</h2>
 
     <div id="root"></div>
-    
+
     <script type="text/babel">
         const { useState } = React;
 
         function App() {
-            // Estados para el formulario
             const [nombre, setNombre] = useState('');
             const [apellido, setApellido] = useState('');
             const [edad, setEdad] = useState('');
             const [altura, setAltura] = useState('');
-            const [peso, setPeso] = useState('');
-            
-            // Estado para la lista de personas
+            const [peso, setPeso] = useState(''); 
             const [personas, setPersonas] = useState([]);
 
             const handleSubmit = (e) => {
@@ -41,7 +38,7 @@
                 const imcCalculado = (pesoNum / (altNum * altNum)).toFixed(2);
 
                 const nuevaPersona = {
-                    id: Date.now(), // ID único para usar de key
+                    id: Date.now(), 
                     nombre,
                     apellido,
                     edad,
@@ -52,7 +49,6 @@
 
                 setPersonas([...personas, nuevaPersona]);
 
-                // Resetear campos del formulario
                 setNombre('');
                 setApellido('');
                 setEdad('');
@@ -124,7 +120,6 @@
             );
         }
 
-        // Renderizar la app en el div #root
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
