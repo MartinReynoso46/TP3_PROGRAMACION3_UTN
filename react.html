@@ -18,6 +18,115 @@
     <h2>Carga de Personas (React)</h2>
 
     <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
 
+        function App() {
+            // Estados para el formulario
+            const [nombre, setNombre] = useState('');
+            const [apellido, setApellido] = useState('');
+            const [edad, setEdad] = useState('');
+            const [altura, setAltura] = useState('');
+            const [peso, setPeso] = useState('');
+            
+            // Estado para la lista de personas
+            const [personas, setPersonas] = useState([]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+
+                const altNum = parseFloat(altura);
+                const pesoNum = parseFloat(peso);
+                const imcCalculado = (pesoNum / (altNum * altNum)).toFixed(2);
+
+                const nuevaPersona = {
+                    id: Date.now(), // ID único para usar de key
+                    nombre,
+                    apellido,
+                    edad,
+                    altura: altNum,
+                    peso: pesoNum,
+                    imc: imcCalculado
+                };
+
+                setPersonas([...personas, nuevaPersona]);
+
+                // Resetear campos del formulario
+                setNombre('');
+                setApellido('');
+                setEdad('');
+                setAltura('');
+                setPeso('');
+            };
+
+            const eliminarPersona = (id) => {
+                setPersonas(personas.filter(p => p.id !== id));
+            };
+
+            return (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Nombre:</label>
+                            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+                        </div>
+                        <div>
+                            <label>Apellido:</label>
+                            <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
+                        </div>
+                        <div>
+                            <label>Edad:</label>
+                            <input type="number" value={edad} onChange={(e) => setEdad(e.target.value)} required />
+                        </div>
+                        <div>
+                            <label>Altura (en metros):</label>
+                            <input type="number" step="0.01" value={altura} onChange={(e) => setAltura(e.target.value)} required />
+                        </div>
+                        <div>
+                            <label>Peso (en kg):</label>
+                            <input type="number" step="0.1" value={peso} onChange={(e) => setPeso(e.target.value)} required />
+                        </div>
+                        <button type="submit">Agregar Persona</button>
+                    </form>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Edad</th>
+                                <th>Altura</th>
+                                <th>Peso</th>
+                                <th>IMC</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {personas.map((p) => (
+                                <tr key={p.id}>
+                                    <td>{p.nombre}</td>
+                                    <td>{p.apellido}</td>
+                                    <td>{p.edad}</td>
+                                    <td>{p.altura} m</td>
+                                    <td>{p.peso} kg</td>
+                                    <td><strong>{p.imc}</strong></td>
+                                    <td>
+                                        <button className="btn-delete" onClick={() => eliminarPersona(p.id)}>
+                                            Quitar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        // Renderizar la app en el div #root
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
